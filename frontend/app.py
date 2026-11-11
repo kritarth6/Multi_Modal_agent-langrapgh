@@ -25,6 +25,15 @@ st.set_page_config(
     initial_sidebar_state="expanded",
 )
 
+# Auto-ingest Streamlit Cloud secrets into environment if present
+try:
+    if hasattr(st, "secrets"):
+        for sec_key in ["GROQ_API_KEY", "TAVILY_API_KEY", "AVIATIONSTACK_API_KEY", "OPENAI_API_KEY"]:
+            if sec_key in st.secrets and not os.environ.get(sec_key):
+                os.environ[sec_key] = str(st.secrets[sec_key])
+except Exception:
+    pass
+
 # Load custom CSS
 css_path = os.path.join(os.path.dirname(__file__), "style.css")
 if os.path.exists(css_path):

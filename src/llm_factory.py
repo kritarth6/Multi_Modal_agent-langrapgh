@@ -90,6 +90,14 @@ def get_chat_model(
     # 1. Groq
     if active_provider == "groq":
         key = api_key or os.getenv("GROQ_API_KEY") or settings.GROQ_API_KEY
+        if not key:
+            try:
+                import streamlit as st
+                if hasattr(st, "secrets") and "GROQ_API_KEY" in st.secrets:
+                    key = str(st.secrets["GROQ_API_KEY"])
+            except Exception:
+                pass
+
         if key:
             try:
                 from langchain_groq import ChatGroq
@@ -100,7 +108,16 @@ def get_chat_model(
                     temperature=temp,
                 )
             except Exception as e:
-                logger.warning(f"Failed to initialize ChatGroq: {e}. Falling back to Mock.")
+                logger.warning(f"Failed to initialize ChatGroq with {model_name}: {e}. Retrying with qwen/qwen3.8-27b.")
+                try:
+                    from langchain_groq import ChatGroq
+                    return ChatGroq(
+                        api_key=key,
+                        model_name="qwen/qwen3.8-27b",
+                        temperature=temp,
+                    )
+                except Exception:
+                    logger.warning("Falling back to MockMultiModalLLM.")
         else:
             logger.info("No Groq API key found. Using MockMultiModalLLM.")
 

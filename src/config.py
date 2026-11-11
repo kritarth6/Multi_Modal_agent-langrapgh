@@ -28,9 +28,9 @@ class Settings(BaseSettings):
     AVIATIONSTACK_API_KEY: Optional[str] = Field(default=None, description="Aviationstack API Key for flight tracking")
     DATABASE_URL: Optional[str] = Field(default=None, description="PostgreSQL / Database connection string")
 
-    # Model Defaults
-    GROQ_VISION_MODEL: str = "llama-3.2-11b-vision-preview"
-    GROQ_TEXT_MODEL: str = "llama-3.3-70b-versatile"
+    # Model Defaults (Active high-performance Groq models)
+    GROQ_VISION_MODEL: str = "qwen/qwen3.8-27b"
+    GROQ_TEXT_MODEL: str = "openai/gpt-oss-120b"
     OPENAI_VISION_MODEL: str = "gpt-4o"
     OPENAI_TEXT_MODEL: str = "gpt-4o-mini"
 
