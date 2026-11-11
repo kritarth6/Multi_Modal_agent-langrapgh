@@ -12,3 +12,4 @@ from src.api.server import app
 
 # Export app instance for Vercel
 __all__ = ["app"]
+
