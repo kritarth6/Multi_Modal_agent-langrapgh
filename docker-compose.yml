@@ -1,0 +1,27 @@
+version: "3.8"
+
+services:
+  omniagent-ui:
+    build: .
+    container_name: omniagent_frontend
+    command: python run.py --ui
+    ports:
+      - "8501:8501"
+    env_file:
+      - .env
+    volumes:
+      - ./data:/app/data
+    restart: unless-stopped
+
+  omniagent-api:
+    build: .
+    container_name: omniagent_backend
+    command: python run.py --api
+    ports:
+      - "8000:8000"
+    env_file:
+      - .env
+    volumes:
+      - ./data:/app/data
+    restart: unless-stopped
+

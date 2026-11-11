@@ -1,0 +1,97 @@
+/* Modern Glassmorphic Dark UI Theme for OmniAgent */
+
+@import url('https://fonts.googleapis.com/css2?family=Plus+Jakarta+Sans:wght@300;400;500;600;700&family=JetBrains+Mono:wght@400;500&display=swap');
+
+html, body, [class*="css"] {
+    font-family: 'Plus Jakarta Sans', -apple-system, BlinkMacSystemFont, sans-serif;
+}
+
+code, pre {
+    font-family: 'JetBrains Mono', monospace !important;
+}
+
+/* Header Badge */
+.header-badge {
+    display: inline-flex;
+    align-items: center;
+    gap: 8px;
+    padding: 6px 14px;
+    background: rgba(99, 102, 241, 0.12);
+    border: 1px solid rgba(99, 102, 241, 0.3);
+    border-radius: 9999px;
+    font-size: 0.82rem;
+    font-weight: 600;
+    color: #818cf8;
+    margin-bottom: 12px;
+}
+
+/* Main hero card */
+.hero-card {
+    background: linear-gradient(135deg, rgba(30, 41, 59, 0.7) 0%, rgba(15, 23, 42, 0.85) 100%);
+    border: 1px solid rgba(255, 255, 255, 0.08);
+    border-radius: 16px;
+    padding: 24px;
+    margin-bottom: 24px;
+    box-shadow: 0 10px 25px -5px rgba(0, 0, 0, 0.3);
+    backdrop-filter: blur(12px);
+}
+
+/* Node Execution Card */
+.node-card {
+    background: rgba(30, 41, 59, 0.6);
+    border-left: 4px solid #6366f1;
+    border-radius: 8px;
+    padding: 12px 16px;
+    margin-bottom: 10px;
+    font-size: 0.9rem;
+    box-shadow: 0 4px 6px -1px rgba(0, 0, 0, 0.1);
+}
+
+.node-card.supervisor {
+    border-left-color: #38bdf8;
+}
+
+.node-card.vision_analyst {
+    border-left-color: #34d399;
+}
+
+.node-card.web_researcher {
+    border-left-color: #fbbf24;
+}
+
+.node-card.code_interpreter {
+    border-left-color: #f472b6;
+}
+
+.node-card.synthesizer {
+    border-left-color: #818cf8;
+}
+
+/* Quick prompt pills */
+.quick-pill {
+    background: rgba(255, 255, 255, 0.05);
+    border: 1px solid rgba(255, 255, 255, 0.12);
+    border-radius: 12px;
+    padding: 8px 12px;
+    font-size: 0.82rem;
+    color: #cbd5e1;
+    cursor: pointer;
+    transition: all 0.2s ease;
+}
+
+.quick-pill:hover {
+    background: rgba(99, 102, 241, 0.15);
+    border-color: #6366f1;
+    color: #ffffff;
+}
+
+/* Tool execution box */
+.tool-box {
+    background: #0b1120;
+    border: 1px solid #1e293b;
+    border-radius: 8px;
+    padding: 12px;
+    font-size: 0.85rem;
+    margin-top: 8px;
+}
+
