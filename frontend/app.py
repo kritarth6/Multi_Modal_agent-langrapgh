@@ -44,6 +44,9 @@ if os.path.exists(css_path):
 if "thread_id" not in st.session_state:
     st.session_state.thread_id = str(uuid.uuid4())
 
+if "groq_api_key" not in st.session_state:
+    st.session_state.groq_api_key = os.getenv("GROQ_API_KEY", "")
+
 if "messages" not in st.session_state:
     st.session_state.messages = []
 
@@ -77,9 +80,16 @@ with st.sidebar:
     
     api_key = None
     if selected_provider_key == "groq":
-        default_groq = os.getenv("GROQ_API_KEY", "")
-        api_key = st.text_input("Groq API Key", value=default_groq, type="password", placeholder="gsk_...")
+        current_val = st.session_state.groq_api_key or os.getenv("GROQ_API_KEY", "")
+        api_key = st.text_input(
+            "Groq API Key",
+            value=current_val,
+            type="password",
+            placeholder="gsk_...",
+            help="Paste your Groq API key here or in Streamlit Secrets."
+        )
         if api_key:
+            st.session_state.groq_api_key = api_key
             os.environ["GROQ_API_KEY"] = api_key
     elif selected_provider_key == "openai":
         default_openai = os.getenv("OPENAI_API_KEY", "")
@@ -246,6 +256,34 @@ with tab_chat:
             if st.button("❌ Remove Image", key="clear_img"):
                 st.session_state.uploaded_image = None
                 st.rerun()
+
+    # Display welcome banner if conversation is empty
+    if not st.session_state.messages:
+        st.markdown(
+            """
+            <div style="background: rgba(30, 41, 59, 0.4); border: 1px dashed rgba(99, 102, 241, 0.35); border-radius: 12px; padding: 20px; margin: 15px 0 25px 0;">
+                <h4 style="color: #818cf8; margin-top: 0; font-size: 1.1rem;">👋 Welcome to OmniAgent!</h4>
+                <p style="color: #cbd5e1; font-size: 0.92rem; margin-bottom: 12px;">
+                    This interface is your multimodal multi-agent command center. You can run it right now:
+                </p>
+                <div style="display: grid; grid-template-columns: repeat(auto-fit, minmax(240px, 1fr)); gap: 12px; color: #94a3b8; font-size: 0.85rem;">
+                    <div style="background: rgba(15, 23, 42, 0.6); padding: 12px; border-radius: 8px; border-left: 3px solid #38bdf8;">
+                        <b style="color: #f8fafc;">1. Click Any Demo Button Above</b><br/>
+                        Try <b>📈 Financial Chart</b> or <b>✈️ Flight Telemetry</b> to trigger automatic visual reasoning and tool execution.
+                    </div>
+                    <div style="background: rgba(15, 23, 42, 0.6); padding: 12px; border-radius: 8px; border-left: 3px solid #34d399;">
+                        <b style="color: #f8fafc;">2. Ask Questions or Upload Files</b><br/>
+                        Upload any screenshot, PDF chart, or diagram and type your question in the prompt bar below.
+                    </div>
+                    <div style="background: rgba(15, 23, 42, 0.6); padding: 12px; border-radius: 8px; border-left: 3px solid #f59e0b;">
+                        <b style="color: #f8fafc;">3. Connected Keys & Offline Mode</b><br/>
+                        Paste your Groq API key in the sidebar for live models, or test with <b>Mock Mode</b> without keys.
+                    </div>
+                </div>
+            </div>
+            """,
+            unsafe_allow_html=True
+        )
 
     # Display past conversation
     for msg in st.session_state.messages:
